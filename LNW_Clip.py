@@ -123,8 +123,12 @@ def detect_bend(reach, total_lines):
         previous_bearing = bearing
     return reach_bends
 
-def remove_lines(reach, reach_bends):
-    # iterate throght the reach list and check against the reach_bends list. If the line is on a straight section,
+def remove_odds(reach, reach_bends):
+    # iterate through the reach list and check against the reach_bends list. If the line is on a straight section,
+    # remove odd ending lines (100, 300, 500, 700, 900)
+    pass
+
+def remove_cs(reach, reach_bends):
     # only remove lines that end with 100, 200, 300, 500, 700 800, 900.
     # if lines are on a bend, remove odd lines (100, 300, 500, 700, 900).
     pass
