@@ -34,14 +34,21 @@ def main():
 
     # step 2
     reach = extract_reach(lnw, start_line, end_line)
+    # moved this function call toward the end. so it is
+    # the last thing to do before writing to file
     total_lines = count_total_lines(reach)
 
-
     # step 3
-    write_lnw(reach, total_lines, lnw_out_path)
-
     reach_bends = detect_bend(reach, total_lines)
-    print(reach_bends)
+
+    # step 4 remove odd lines
+    reach_copy = (remove_odds(reach))
+
+    #print(reach_bends)
+    # need to
+    total_lines = count_total_lines(reach_copy)
+    # write the lines to a new LNW file
+    write_lnw(reach_copy, total_lines, lnw_out_path)
 
 def load_lnw(lnw_path):
 
@@ -92,22 +99,22 @@ def detect_bend(reach, total_lines):
         #print(f"line count {count}")
         #print(f"x is {x}")
         bearing = reach[x].split(" ")
-        print(bearing[1])
+        #print(bearing[1])
 
         # Why is this getting an out of bounds error?
         if count +16 < len(reach):
             next_bearing = reach[x + 16].split(" ")
-            print (f"next bearing {next_bearing[1]}")
+            #print (f"next bearing {next_bearing[1]}")
 
             if bearing[1] == next_bearing[1] and bearing[1] != previous_bearing[1]:
                 strait_count = strait_count + 1
                 #print(f"beginning of straight section!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: {strait_count}")
-                print("begin straight")
+                #print("begin straight")
 
             elif bearing[1] == previous_bearing[1]:
 
                 strait_count = strait_count + 1
-                print("straight")
+                #print("straight")
                 #print(f"count of straight section: {strait_count}")
 
 
@@ -116,17 +123,32 @@ def detect_bend(reach, total_lines):
                 reach_bends.append(reach[x- 7])
 
                 #print(f"count of bend: {bend_count}")
-                print("bend")
+                #print("bend")
         else:
             exit
 
         previous_bearing = bearing
+    print("found all bends")
     return reach_bends
 
-def remove_odds(reach, reach_bends):
-    # iterate through the reach list and check against the reach_bends list. If the line is on a straight section,
+def remove_odds(reach):
     # remove odd ending lines (100, 300, 500, 700, 900)
-    pass
+    reach_copy = reach
+    odds = {'100', '300', '500', '700', '900'}
+    for line in reach_copy:
+        #if line[0:3] != "Lnn":
+
+
+        if line[0:3] == "LNN":
+            line_split = line.split("+")
+            print (line_split[1])
+            if line_split[1] in odds:
+                print(f"Deleting odd line {str(line_split[0])}+{str(line_split[1])}")
+                del reach_copy[(line.index(reach_copy)-3):(line.index(reach_copy) +12)]
+
+    print(reach_copy)
+
+    return(reach_copy)
 
 def remove_cs(reach, reach_bends):
     # only remove lines that end with 100, 200, 300, 500, 700 800, 900.
