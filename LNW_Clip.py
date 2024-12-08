@@ -135,17 +135,18 @@ def remove_odds(reach):
     # remove odd ending lines (100, 300, 500, 700, 900)
     reach_copy = reach
     odds = {'100', '300', '500', '700', '900'}
-    for line in reach_copy:
-        #if line[0:3] != "Lnn":
 
+    for index, line in enumerate(reach_copy):
 
         if line[0:3] == "LNN":
             line_split = line.split("+")
             print (line_split[1])
+
             if line_split[1] in odds:
                 print(f"Deleting odd line {str(line_split[0])}+{str(line_split[1])}")
-                del reach_copy[(line.index(reach_copy)-3):(line.index(reach_copy) +12)]
+                del reach_copy[index -3: index +13]
 
+    #print statement for testing
     #print(reach_copy)
 
     return(reach_copy)
