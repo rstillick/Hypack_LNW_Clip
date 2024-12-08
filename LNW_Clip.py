@@ -146,7 +146,7 @@ def remove_odds(reach):
                 print(f"Deleting odd line {str(line_split[0])}+{str(line_split[1])}")
                 del reach_copy[(line.index(reach_copy)-3):(line.index(reach_copy) +12)]
 
-    print(reach_copy)
+    #print(reach_copy)
 
     return(reach_copy)
 
