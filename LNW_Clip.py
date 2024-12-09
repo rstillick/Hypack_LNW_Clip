@@ -2,6 +2,9 @@
 Hypack LNW_Clip Removes excess lines from Hypack LNW.
 Utility for removing lines from a Hypack LNW file. Takes as input an LNW for a channel that has lines spacing of 100 ft.
 Outputs an LNW with spacing that varies depending on whether the channel is a straight section or a bend.
+
+This file needs to be initialized with the working directory, input line file, and star line / end line for the survey.
+
 """
 
 def main():
